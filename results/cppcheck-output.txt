@@ -1,0 +1,16 @@
+Checking src/publisher.cpp ...
+src/publisher.cpp:7:0: information: Include file: "rclcpp/rclcpp.hpp" not found. [missingInclude]
+
+^
+src/publisher.cpp:8:0: information: Include file: "std_msgs/msg/string.hpp" not found. [missingInclude]
+
+^
+1/2 files checked 59% done
+Checking src/subscriber.cpp ...
+src/subscriber.cpp:4:0: information: Include file: "rclcpp/rclcpp.hpp" not found. [missingInclude]
+
+^
+src/subscriber.cpp:5:0: information: Include file: "std_msgs/msg/string.hpp" not found. [missingInclude]
+
+^
+2/2 files checked 100% done
