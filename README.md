@@ -22,13 +22,13 @@ colcon build --packages-select beginner_tutorials
 ```
 
 ## Run
-* publisher in one terminal
+* publisher in one terminal (with loglevel start from debug)
 ```
-ros2 run beginner_tutorials talker
+ros2 run beginner_tutorials talker --ros-args --log-level debug
 ```
-* subscriber in another terminal
+* subscriber in another terminal (with loglevel start from debug)
 ```
-ros2 run beginner_tutorials listener
+ros2 run beginner_tutorials listener  --ros-args --log-level debug
 ```
 
 ## Dependencies:
