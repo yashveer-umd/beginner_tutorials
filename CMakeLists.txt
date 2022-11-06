@@ -9,10 +9,16 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-
+find_package(rosidl_default_generators REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+ament_export_dependencies(rosidl_default_runtime)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/ChangeString.srv"
+)
+
 
 add_executable(talker src/publisher.cpp)
 ament_target_dependencies(talker rclcpp std_msgs)
@@ -20,10 +26,29 @@ ament_target_dependencies(talker rclcpp std_msgs)
 add_executable(listener src/subscriber.cpp)
 ament_target_dependencies(listener rclcpp std_msgs)
 
+# add_executable(server src/server.cpp)
+# ament_target_dependencies(server rclcpp)
+
+add_executable(server_client src/server_client.cpp)
+ament_target_dependencies(server_client rclcpp)
+
 install(TARGETS
   talker
   listener
+  server_client
   DESTINATION lib/${PROJECT_NAME})
+
+## This finds the relevant generated C++ code from ChangeString.srv 
+# and allows your target to link against it.
+# You may have noticed that this step was not necessary when the
+# interfaces being used were from a package that was built separately. 
+# ref : https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html
+
+rosidl_target_interfaces(talker
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+rosidl_target_interfaces(server_client
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -5,9 +5,13 @@
 #include "std_msgs/msg/string.hpp"
 using std::placeholders::_1;
 
+/**
+ * @brief Subscriber class Node for topic "topic"
+ * 
+ */
 class MinimalSubscriber : public rclcpp::Node {
  public:
-  MinimalSubscriber() : Node("minimal_subscriber") {
+  MinimalSubscriber() : Node("subscriber") {
     try{
       subscription_ = this->create_subscription<std_msgs::msg::String>(
           "topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, _1));
@@ -20,6 +24,11 @@ class MinimalSubscriber : public rclcpp::Node {
   }
 
  private:
+  /**
+   * @brief callback to handle the message transmit from the publisher on the topic
+   * 
+   * @param msg 
+   */
   void topic_callback(const std_msgs::msg::String& msg) const {
     RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg.data.c_str());
   }

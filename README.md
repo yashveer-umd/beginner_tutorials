@@ -31,7 +31,10 @@ ros2 run beginner_tutorials talker --ros-args --log-level debug
 ```
 ros2 run beginner_tutorials listener  --ros-args --log-level debug
 ```
-
+* Running service client (change `new_string_to_publish` to the desired string want to publish)
+```
+ros2 run beginner_tutorials server_client <new_string_to_publish> --ros-args --log-level debug
+```
 ## Dependencies:
 * rclcpp
 * std_msgs
