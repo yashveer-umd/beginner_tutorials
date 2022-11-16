@@ -1,2 +1,9 @@
+./src/publisher.cpp:42:  Using deprecated casting style.  Use static_cast<int>(...) instead  [readability/casting] [4]
+./src/publisher.cpp:50:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+./src/publisher.cpp:52:  Multi-line string ("...") found.  This lint script doesn't do well with such strings, and may give bogus warnings.  Use C++11 raw strings or concatenation instead.  [readability/multiline_string] [5]
+./src/publisher.cpp:54:  Multi-line string ("...") found.  This lint script doesn't do well with such strings, and may give bogus warnings.  Use C++11 raw strings or concatenation instead.  [readability/multiline_string] [5]
+./src/publisher.cpp:54:  Use operator ! instead of not  [readability/alt_tokens] [2]
 Done processing ./src/publisher.cpp
+Done processing ./src/server_client.cpp
 Done processing ./src/subscriber.cpp
+Total errors found: 5

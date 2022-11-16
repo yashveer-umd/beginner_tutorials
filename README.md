@@ -42,7 +42,18 @@ ros2 launch beginner_tutorials custom_launch.yaml frequency:=1ros2 launch beginn
 ```
 * Note: frequency must be integer value.
 * It will launch publisher and subscriber nodes, and server node within publisher.
-* so using server_client message can be edited.
+* so, server_client node need to be called separately and message can be edited.
+
+## Checks
+### cpplint:
+```
+cpplint --filter=-build/c++11,+build/c++17,-build/namespaces,-build/include_order $( find . -name *.cpp | grep -vE -e "^./build/" -e "^./vendor/" )
+```
+### cppcheck:
+```
+cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem $( find . -name *.cpp | grep -vE -e "^./build/" -e "^./vendor/" )
+```
+
 ## Dependencies:
 * rclcpp
 * std_msgs
