@@ -32,11 +32,10 @@ ament_target_dependencies(listener rclcpp std_msgs)
 add_executable(server_client src/server_client.cpp)
 ament_target_dependencies(server_client rclcpp)
 
-install(TARGETS
-  talker
-  listener
-  server_client
-  DESTINATION lib/${PROJECT_NAME})
+install(TARGETS talker listener server_client
+        DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY launch
+        DESTINATION share/${PROJECT_NAME})
 
 ## This finds the relevant generated C++ code from ChangeString.srv 
 # and allows your target to link against it.

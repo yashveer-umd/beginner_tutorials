@@ -7,27 +7,29 @@ using std::placeholders::_1;
 
 /**
  * @brief Subscriber class Node for topic "topic"
- * 
+ *
  */
 class MinimalSubscriber : public rclcpp::Node {
  public:
   MinimalSubscriber() : Node("subscriber") {
-    try{
+    try {
       subscription_ = this->create_subscription<std_msgs::msg::String>(
-          "topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, _1));
-      RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialized the Subscriber");  
-     }
-    catch(...){
-      RCLCPP_ERROR_STREAM(this->get_logger(), "Error encountered at time of initialization!!");
+          "chatter", 10,
+          std::bind(&MinimalSubscriber::topic_callback, this, _1));
+      RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialized the Subscriber");
+    } catch (...) {
+      RCLCPP_ERROR_STREAM(this->get_logger(),
+                          "Error encountered at time of initialization!!");
       RCLCPP_FATAL_STREAM(this->get_logger(), "Subscriber may not work!!");
     }
   }
 
  private:
   /**
-   * @brief callback to handle the message transmit from the publisher on the topic
-   * 
-   * @param msg 
+   * @brief callback to handle the message transmit from the publisher on the
+   * topic
+   *
+   * @param msg :string
    */
   void topic_callback(const std_msgs::msg::String& msg) const {
     RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg.data.c_str());
@@ -44,4 +46,3 @@ int main(int argc, char* argv[]) {
   RCLCPP_WARN_STREAM(node->get_logger(), "Shutting Down!! " << 4);
   return 0;
 }
-
