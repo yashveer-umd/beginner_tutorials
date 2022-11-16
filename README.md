@@ -53,6 +53,8 @@ cpplint --filter=-build/c++11,+build/c++17,-build/namespaces,-build/include_orde
 ```
 cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem $( find . -name *.cpp | grep -vE -e "^./build/" -e "^./vendor/" )
 ```
+## rqt_console log output
+![](results/rqt_console_log.png)
 
 ## Dependencies:
 * rclcpp
