@@ -46,6 +46,48 @@ ros2 launch launch/custom_launch.py  enable_recording:=False frequency:=1
 * `enable_recording` argument can either be `False` or `True`:
     - which enable ros2 bag for recording the topic output
 
+## Working ros2 bag output:
+### replay the recorded data from ros2 bag recording:
+* In one terminal run:
+    > ros2 bag play results/bag_output`
+* In second terminal just spawn listener to get the output of the bag
+    > ros2 run beginner_tutorials listener
+
+* get the ros2 bag output info:
+    > ros2 bag info results/bag_output
+    - output:
+    ```
+    Files:             bag_output_0.db3
+    Bag size:          17.0 KiB
+    Storage id:        sqlite3
+    Duration:          7.500s
+    Start:             Nov 30 2022 00:32:57.319 (1669786377.319)
+    End:               Nov 30 2022 00:33:04.819 (1669786384.819)
+    Messages:          31
+    Topic information: Topic: /chatter | Type: std_msgs/msg/String | Count: 31 | Serialization Format: c
+    ```
+## Working if tf2 
+* run the talker with the tf2
+    > ros2 run beginner_tutorials talker talk 0 0 1 0 0 0
+    - This is defining the transformation of `talk` frame with respect to `world` frame, where `talk` frame is of distance `1` unit in z direction and no rotation with respect to `world` frame.
+    - Note: here `world` is parent frame while `talk` is a child frame.
+* In another terminal run
+    > ros2 run tf2_ros tf2_echo world talk
+    - output:
+    ```
+    At time 0.0
+    - Translation: [0.000, 0.000, 1.000]
+    - Rotation: in Quaternion [0.000, 0.000, 0.000, 1.000]
+    - Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+    - Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+    - Matrix:
+    1.000  0.000  0.000  0.000
+    0.000  1.000  0.000  0.000
+    0.000  0.000  1.000  1.000
+    0.000  0.000  0.000  1.000
+
+    ```
+
 ## Checks
 ### cpplint:
 ```
@@ -60,7 +102,7 @@ cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem
 * `bag_output` dir:
     - Contains the recording of the chatter data in sqlite format
 * `frames_2022-11-29_12.11.33.pdf` output of the Tf2 (transform) after running command:
-    - ros2 run tf2_tools view_frames
+    > ros2 run tf2_tools view_frames
 * Cpplint output
 * Cppcheck output
 
