@@ -38,11 +38,13 @@ ros2 run beginner_tutorials server_client <new_string_to_publish> --ros-args --l
 ```
 ## Run with launch file
 ```
-ros2 launch beginner_tutorials custom_launch.yaml frequency:=1ros2 launch beginner_tutorials custom_launch.yaml frequency:=1
+ros2 launch launch/custom_launch.py  enable_recording:=False frequency:=1
 ```
-* Note: frequency must be integer value.
+* Note: frequency must be integer value (hz).
 * It will launch publisher and subscriber nodes, and server node within publisher.
 * so, server_client node need to be called separately and message can be edited.
+* `enable_recording` argument can either be `False` or `True`:
+    - which enable ros2 bag for recording the topic output
 
 ## Checks
 ### cpplint:
@@ -53,9 +55,19 @@ cpplint --filter=-build/c++11,+build/c++17,-build/namespaces,-build/include_orde
 ```
 cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem $( find . -name *.cpp | grep -vE -e "^./build/" -e "^./vendor/" )
 ```
-## rqt_console log output
-![](results/rqt_console_log.png)
+
+## Results:
+* `bag_output` dir:
+    - Contains the recording of the chatter data in sqlite format
+* `frames_2022-11-29_12.11.33.pdf` output of the Tf2 (transform) after running command:
+    - ros2 run tf2_tools view_frames
+* Cpplint output
+* Cppcheck output
+
 
 ## Dependencies:
 * rclcpp
 * std_msgs
+* geometry_msgs
+* tf2
+* tf2_ros
