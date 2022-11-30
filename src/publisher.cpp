@@ -4,13 +4,13 @@
 #include <memory>
 #include <string>
 
-#include "geometry_msgs/msg/transform_stamped.hpp"
-#include "tf2/LinearMath/Quaternion.h"
-#include "tf2_ros/static_transform_broadcaster.h"
 #include "beginner_tutorials/srv/change_string.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/logger.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "tf2/LinearMath/Quaternion.h"
+#include "tf2_ros/static_transform_broadcaster.h"
 
 using namespace std::chrono_literals;
 
@@ -22,13 +22,13 @@ using PARAMETER_EVENT = std::shared_ptr<rclcpp::ParameterEventHandler>;
 using PARAMETER_HNADLE = std::shared_ptr<rclcpp::ParameterCallbackHandle>;
 
 /**
- * @brief Publisher class which has publisher Node and 
+ * @brief Publisher class which has publisher Node and
  *         server node which handle the change in the string
  *
  */
 class Publisher : public rclcpp::Node {
  public:
-  Publisher(char *transformations[]) : Node("publisher") {
+  Publisher(char* transformations[]) : Node("publisher") {
     try {
       publisher_ = this->create_publisher<std_msgs::msg::String>("chatter", 10);
 
@@ -51,25 +51,25 @@ class Publisher : public rclcpp::Node {
                     std::placeholders::_2));
       RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialize the Server");
 
-      tf_static_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+      tf_static_broadcaster_ =
+          std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
 
       // Publish static transforms once at startup
       this->make_transforms(transformations);
       RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialize the transform");
     } catch (...) {
-      RCLCPP_ERROR_STREAM(this->get_logger(), 
-      "Error encountered at time of initialization!!"); 
-      RCLCPP_FATAL_STREAM(this->get_logger(), 
-      "Publisher may not work!!");
+      RCLCPP_ERROR_STREAM(this->get_logger(),
+                          "Error encountered at time of initialization!!");
+      RCLCPP_FATAL_STREAM(this->get_logger(), "Publisher may not work!!");
     }
-  } 
+  }
 
   /**
    * @brief Callback function for processing server request and generate
    * response
    *
-   * @param request : string
-   * @param response :string
+   * @param request : input string
+   * @param response :output string (after change)
    */
   void changeString(
       const std::shared_ptr<beginner_tutorials::srv::ChangeString::Request>
@@ -101,8 +101,13 @@ class Publisher : public rclcpp::Node {
     publisher_->publish(message);
   }
 
-  void make_transforms(char * transformation[])
-  {
+  /**
+   * @brief make_transformation is the method will
+   *
+   * @param transformation array of chars (containing topic name,
+   * x,y,z,roll,pitch,yaw)
+   */
+  void make_transforms(char* transformation[]) {
     geometry_msgs::msg::TransformStamped t;
 
     t.header.stamp = this->get_clock()->now();
@@ -113,10 +118,8 @@ class Publisher : public rclcpp::Node {
     t.transform.translation.y = atof(transformation[3]);
     t.transform.translation.z = atof(transformation[4]);
     tf2::Quaternion q;
-    q.setRPY(
-      atof(transformation[5]),
-      atof(transformation[6]),
-      atof(transformation[7]));
+    q.setRPY(atof(transformation[5]), atof(transformation[6]),
+             atof(transformation[7]));
     t.transform.rotation.x = q.x();
     t.transform.rotation.y = q.y();
     t.transform.rotation.z = q.z();
@@ -133,24 +136,21 @@ class Publisher : public rclcpp::Node {
 };
 
 int main(int argc, char* argv[]) {
-  
   // Obtain parameters from command line arguments
   if (argc < 8) {
-    RCLCPP_WARN(
-      rclcpp::get_logger("rclcpp"), "Invalid number of parameters\nusage: "
-      "$ ros2 run learning_tf2_cpp static_turtle_tf2_broadcaster "
-      "child_frame_name x y z roll pitch yaw %d",argc);
-    RCLCPP_WARN_STREAM(
-      rclcpp::get_logger("rclcpp"), "Invalid number of parameters\nusage: "
-      "$ ros2 run learning_tf2_cpp static_turtle_tf2_broadcaster "
-      "child_frame_name x y z roll pitch yaw"<<argc<<" "<<argv);
+    RCLCPP_WARN(rclcpp::get_logger("rclcpp"),
+                "Invalid number of parameters\nusage: "
+                "$ ros2 run beginner_tutorials talker "
+                "child_frame_name x y z roll pitch yaw %d",
+                argc);
     return 1;
   }
-  
+
   // As the parent frame of the transform is `world`, it is
   // necessary to check that the frame name passed is different
   if (strcmp(argv[1], "world") == 0) {
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Your static turtle name cannot be world");
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
+                "Your static turtle name cannot be world");
     return 1;
   }
 
@@ -162,4 +162,3 @@ int main(int argc, char* argv[]) {
   RCLCPP_WARN_STREAM(node->get_logger(), "Shutting Down!! " << 4);
   return 0;
 }
-
