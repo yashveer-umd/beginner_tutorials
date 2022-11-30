@@ -11,11 +11,12 @@
 using namespace std::chrono_literals;
 
 /**
- * @brief ServerClient class which create a node to give the new string to server.
- * @details new string given by user using argument are then send to server, which 
- * is in publisher node, and then server edit the string and save for further
- * use by publisher for 'chatter' topic.
- * 
+ * @brief ServerClient class which create a node to give the new string to
+ * server.
+ * @details new string given by user using argument are then send to server,
+ * which is in publisher node, and then server edit the string and save for
+ * further use by publisher for 'chatter' topic.
+ *
  */
 class ServerClient : public rclcpp::Node {
  public:
