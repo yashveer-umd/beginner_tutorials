@@ -1,3 +1,5 @@
+// Copyright [2022] yashveer@umd.edu
+
 // Description: Test if a simple task plan works
 #include <gtest/gtest.h>
 #include <stdlib.h>

@@ -28,7 +28,7 @@ using PARAMETER_HNADLE = std::shared_ptr<rclcpp::ParameterCallbackHandle>;
  */
 class Publisher : public rclcpp::Node {
  public:
-  Publisher(char* transformations[]) : Node("publisher") {
+  explicit Publisher(char* transformations[]) : Node("publisher") {
     try {
       publisher_ = this->create_publisher<std_msgs::msg::String>("chatter", 10);
 
@@ -42,7 +42,7 @@ class Publisher : public rclcpp::Node {
 
       RCLCPP_INFO_STREAM(this->get_logger(), "Param value : " << frequency);
       timer_ = this->create_wall_timer(
-          std::chrono::milliseconds(int((1000 / frequency))),
+          std::chrono::milliseconds(static_cast<int>((1000 / frequency))),
           std::bind(&Publisher::timer_callback, this));
       RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialize the Publisher");
       server = this->create_service<beginner_tutorials::srv::ChangeString>(
