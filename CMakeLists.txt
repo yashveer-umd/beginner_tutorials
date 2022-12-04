@@ -5,12 +5,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-set (THIS_PACKAGE_INCLUDE_DEPENDS
-    rclcpp
-    rosidl_default_generators
-    std_msgs
-    )
-
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -22,6 +16,8 @@ find_package(rosidl_default_generators REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+
 
 ament_export_dependencies(rosidl_default_runtime)
 
@@ -65,6 +61,12 @@ rosidl_target_interfaces(server_client
 
 
 if(BUILD_TESTING)
+
+  set (THIS_PACKAGE_INCLUDE_DEPENDS
+  rclcpp
+  rosidl_default_generators
+  std_msgs
+  )
   # the following line skips the linter which checks for copyrights
   # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
